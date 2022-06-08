@@ -1,5 +1,8 @@
 package com.github.kelvinspatola.math;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class SimpleMath {
 	
 	public Double sum(Double a, Double b) {
