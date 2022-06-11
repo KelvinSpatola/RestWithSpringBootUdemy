@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.kelvinspatola.model.Person;
+import com.github.kelvinspatola.data.vo.PersonVO;
 import com.github.kelvinspatola.services.PersonService;
 
 @RestController
@@ -23,22 +23,22 @@ public class PersonController {
 	PersonService service;
 	
 	@GetMapping
-	public List<Person> findfindAll() {
+	public List<PersonVO> findfindAll() {
 		return service.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") Long id) {
+	public PersonVO findById(@PathVariable("id") Long id) {
 		return service.findById(id);
 	}
 	
 	@PostMapping
-	public Person create(@RequestBody Person person) {
+	public PersonVO create(@RequestBody PersonVO person) {
 		return service.create(person);
 	}
 	
 	@PutMapping
-	public Person update(@RequestBody Person person) {
+	public PersonVO update(@RequestBody PersonVO person) {
 		return service.update(person);
 	}
 	

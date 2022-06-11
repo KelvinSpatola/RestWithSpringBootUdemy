@@ -1,4 +1,4 @@
-package com.github.kelvinspatola.model;
+package com.github.kelvinspatola.data.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -35,11 +35,11 @@ public class Person implements Serializable {
 	public Person() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
