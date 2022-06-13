@@ -7,8 +7,10 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.converter.DozerConverter;
+import com.github.kelvinspatola.converter.custom.PersonConverter;
 import com.github.kelvinspatola.data.model.Person;
 import com.github.kelvinspatola.data.vo.PersonVO;
+import com.github.kelvinspatola.data.vo.v2.PersonVOV2;
 import com.github.kelvinspatola.repository.PersonRepository;
 
 @Service
@@ -17,9 +19,18 @@ public class PersonService {
 	@Autowired
 	PersonRepository repository;
 	
+	@Autowired
+	PersonConverter converter;
+	
 	public PersonVO create(PersonVO person) {
 		var entity = DozerConverter.parseObject(person, Person.class);
 		var vo = DozerConverter.parseObject(repository.save(entity), PersonVO.class);
+		return vo;
+	}
+	
+	public PersonVOV2 createV2(PersonVOV2 person) {
+		var entity = converter.convertVOToEntity(person);
+		var vo = converter.convertEntityToVO(repository.save(entity));
 		return vo;
 	}
 		
@@ -32,6 +43,13 @@ public class PersonService {
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id!"));
 		
 		return DozerConverter.parseObject(entity, PersonVO.class);
+	}
+	
+	public PersonVOV2 findByIdV2(Long id) { // teste
+		var entity =  repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this id!"));
+		
+		return converter.convertEntityToVO(entity);
 	}
 	
 	public PersonVO update(PersonVO person) {
