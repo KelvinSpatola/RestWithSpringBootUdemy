@@ -1,4 +1,4 @@
-package com.githube.kelvinspatola.converter.mocks;
+package com.github.kelvinspatola.converter.mocks;
 
 import java.util.ArrayList;
 import java.util.List;

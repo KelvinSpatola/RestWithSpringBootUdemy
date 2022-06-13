@@ -1,4 +1,4 @@
-package com.githube.kelvinspatola.converter;
+package com.github.kelvinspatola.converter;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.kelvinspatola.converter.DozerConverter;
+import com.github.kelvinspatola.converter.mocks.MockPerson;
 import com.github.kelvinspatola.data.model.Person;
 import com.github.kelvinspatola.data.vo.PersonVO;
-import com.githube.kelvinspatola.converter.mocks.MockPerson;
 
 public class DozerConverterTest {
 	 MockPerson inputObject;
