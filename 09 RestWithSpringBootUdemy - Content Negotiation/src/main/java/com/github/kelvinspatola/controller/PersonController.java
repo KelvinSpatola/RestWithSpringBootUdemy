@@ -21,29 +21,31 @@ import com.github.kelvinspatola.services.PersonService;
 public class PersonController {
 	@Autowired
 	PersonService service;
-	
-	@GetMapping
-	public List<PersonVO> findfindAll() {
+
+	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
+	public List<PersonVO> findfindAll() { // GET
 		return service.findAll();
 	}
-	
-	@GetMapping("/{id}")
-	public PersonVO findById(@PathVariable("id") Long id) {
+
+	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
+	public PersonVO findById(@PathVariable("id") Long id) { // GET
 		return service.findById(id);
 	}
-	
-	@PostMapping
-	public PersonVO create(@RequestBody PersonVO person) {
+
+	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, 
+			consumes = { "application/json", "application/xml", "application/x-yaml" })
+	public PersonVO create(@RequestBody PersonVO person) { // POST
 		return service.create(person);
 	}
-	
-	@PutMapping
-	public PersonVO update(@RequestBody PersonVO person) {
+
+	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, 
+			consumes = { "application/json", "application/xml", "application/x-yaml" })
+	public PersonVO update(@RequestBody PersonVO person) { // PUT
 		return service.update(person);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) { // DELETE
 		service.delete(id);
 		return ResponseEntity.ok().build();
 	}
