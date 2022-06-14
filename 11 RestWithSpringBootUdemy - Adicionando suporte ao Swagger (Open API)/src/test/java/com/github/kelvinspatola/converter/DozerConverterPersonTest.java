@@ -10,7 +10,7 @@ import com.github.kelvinspatola.converter.mocks.MockPerson;
 import com.github.kelvinspatola.data.model.Person;
 import com.github.kelvinspatola.data.vo.v1.PersonVO;
 
-public class DozerConverterTest {
+public class DozerConverterPersonTest {
 	 MockPerson inputObject;
 
 	    @Before

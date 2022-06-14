@@ -3,12 +3,12 @@ package com.github.kelvinspatola.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.converter.DozerConverter;
 import com.github.kelvinspatola.data.model.Person;
 import com.github.kelvinspatola.data.vo.v1.PersonVO;
+import com.github.kelvinspatola.exception.ResourceNotFoundException;
 import com.github.kelvinspatola.repository.PersonRepository;
 
 @Service

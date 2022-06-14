@@ -2,7 +2,6 @@ package com.github.kelvinspatola.converter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
@@ -23,9 +22,9 @@ public class DozerConverter {
 		return destinationObjects;
 	}
 	
-	public static <O, D> List<D> parseListObjects2(List<O> origin, Class<D> destination) {		
-		return origin.stream()
-				.map(o -> mapper.map(o, destination))
-				.collect(Collectors.toList());
-	}
+//	public static <O, D> List<D> parseListObjects2(List<O> origin, Class<D> destination) {		
+//		return origin.stream()
+//				.map(o -> mapper.map(o, destination))
+//				.collect(Collectors.toList());
+//	}
 }
