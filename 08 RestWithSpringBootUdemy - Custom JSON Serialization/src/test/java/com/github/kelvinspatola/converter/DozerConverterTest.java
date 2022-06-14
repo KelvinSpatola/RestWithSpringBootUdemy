@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.github.kelvinspatola.converter.DozerConverter;
 import com.github.kelvinspatola.converter.mocks.MockPerson;
 import com.github.kelvinspatola.data.model.Person;
-import com.github.kelvinspatola.data.vo.PersonVO;
+import com.github.kelvinspatola.data.vo.v1.PersonVO;
 
 public class DozerConverterTest {
 	 MockPerson inputObject;

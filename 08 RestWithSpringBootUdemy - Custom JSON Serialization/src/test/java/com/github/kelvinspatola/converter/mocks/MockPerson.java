@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kelvinspatola.data.model.Person;
-import com.github.kelvinspatola.data.vo.PersonVO;
+import com.github.kelvinspatola.data.vo.v1.PersonVO;
 
 public class MockPerson {
 	

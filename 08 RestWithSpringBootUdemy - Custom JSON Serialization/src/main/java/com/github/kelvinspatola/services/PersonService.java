@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.converter.DozerConverter;
 import com.github.kelvinspatola.data.model.Person;
-import com.github.kelvinspatola.data.vo.PersonVO;
+import com.github.kelvinspatola.data.vo.v1.PersonVO;
 import com.github.kelvinspatola.repository.PersonRepository;
 
 @Service
