@@ -9,9 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 public class Book implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,16 +21,17 @@ public class Book implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "author", nullable = true, length = 80)
+	@Column(nullable = false, length = 180)
 	private String author;
 	
-	@Column(name = "launch_date", nullable = false, length = 6)
+	@Column(name = "launch_date", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date launchDate;
 	
-	@Column(name = "price", nullable = false, length = 6)
+	@Column(nullable = false)
 	private Float price;
 		
-	@Column(name = "title", nullable = true, length = 100)
+	@Column(nullable = false, length = 250)
 	private String title;
 	
 	public Book() { }

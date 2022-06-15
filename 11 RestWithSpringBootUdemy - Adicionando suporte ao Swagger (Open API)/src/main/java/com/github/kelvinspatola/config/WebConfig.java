@@ -10,10 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.kelvinspatola.serialization.converter.YamlJackson2HttpMessageConverter;
 
+/**
+ * Content Negotiation class
+ * @author Kelvin Spátola 
+ *
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 	private static final MediaType MEDIA_TYPE_YAML = MediaType.valueOf("application/x-yaml");
 	
+	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(new YamlJackson2HttpMessageConverter());
 	}
@@ -28,23 +34,23 @@ public class WebConfig implements WebMvcConfigurer {
 //			.mediaType("xml", MediaType.APPLICATION_XML);
 		
 		// Via QUERY PARAM: localhost:8080/api/person/v1?mediaType=xml
-//		configurer.favorPathExtension(false)
-//		.favorParameter(true)
-//		.parameterName("mediaType")
-//		.ignoreAcceptHeader(true)
-//		.useRegisteredExtensionsOnly(false)
-//		.defaultContentType(MediaType.APPLICATION_JSON)
-//		.mediaType("json", MediaType.APPLICATION_JSON)
-//		.mediaType("xml", MediaType.APPLICATION_XML);
-
-		// Via HEADER: localhost:8080/api/person/v1   - KEY = Accept  - VALUE = application/xml
 		configurer.favorPathExtension(false)
-		.favorParameter(false)
-		.ignoreAcceptHeader(false)
+		.favorParameter(true)
+		.parameterName("mediaType")
+		.ignoreAcceptHeader(true)
 		.useRegisteredExtensionsOnly(false)
 		.defaultContentType(MediaType.APPLICATION_JSON)
 		.mediaType("json", MediaType.APPLICATION_JSON)
-		.mediaType("xml", MediaType.APPLICATION_XML)
-		.mediaType("x-yaml", MEDIA_TYPE_YAML);
+		.mediaType("xml", MediaType.APPLICATION_XML);
+
+		// Via HEADER: localhost:8080/api/person/v1   - KEY = Accept  - VALUE = application/xml
+//		configurer.favorPathExtension(false)
+//		.favorParameter(false)
+//		.ignoreAcceptHeader(false)
+//		.useRegisteredExtensionsOnly(false)
+//		.defaultContentType(MediaType.APPLICATION_JSON)
+//		.mediaType("json", MediaType.APPLICATION_JSON)
+//		.mediaType("xml", MediaType.APPLICATION_XML)
+//		.mediaType("x-yaml", MEDIA_TYPE_YAML);
 	}
 }
