@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.data.vo.v1.PersonVO;
+import com.github.kelvinspatola.data.vo.v2.PersonVOV2;
 import com.github.kelvinspatola.exceptions.ResourceNotFoundException;
 import com.github.kelvinspatola.mapper.DozerMapper;
+import com.github.kelvinspatola.mapper.custom.PersonMapper;
 import com.github.kelvinspatola.model.Person;
 import com.github.kelvinspatola.repositories.PersonRepository;
 
@@ -18,6 +20,9 @@ public class PersonServices {
 	
 	@Autowired
 	private PersonRepository repository;
+	
+	@Autowired
+	private PersonMapper personMapper;
 
 	public List<PersonVO> findAll() {
 		logger.info("Searching all people!");
@@ -38,6 +43,14 @@ public class PersonServices {
 		var entity = DozerMapper.parseObject(personVO, Person.class);
 		// save this Person object in the DB and then convert it back to a PersonVO object and return it.
 		return DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+	}
+	
+	public PersonVOV2 createV2(PersonVOV2 personVOV2) {
+		logger.info("Creating a person with v2!");
+		// convert this personVO to a Person object.
+		var entity = personMapper.convertVoToEntity(personVOV2);
+		// save this Person object in the DB and then convert it back to a PersonVO object and return it.
+		return personMapper.convertEntityToVo(repository.save(entity));
 	}
 	
 	public PersonVO update(PersonVO person) {
