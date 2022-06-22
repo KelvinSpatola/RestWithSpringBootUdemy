@@ -18,7 +18,7 @@ import com.github.kelvinspatola.data.vo.v1.PersonVO;
 import com.github.kelvinspatola.services.PersonServices;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 	@Autowired
 	private PersonServices service;
