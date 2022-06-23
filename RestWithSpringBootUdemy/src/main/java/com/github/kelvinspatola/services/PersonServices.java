@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.controllers.PersonController;
 import com.github.kelvinspatola.data.vo.v1.PersonVO;
+import com.github.kelvinspatola.exceptions.RequiredObjectIsNullException;
 import com.github.kelvinspatola.exceptions.ResourceNotFoundException;
 import com.github.kelvinspatola.mapper.DozerMapper;
 import com.github.kelvinspatola.model.Person;
@@ -25,9 +26,9 @@ public class PersonServices {
 
 	public List<PersonVO> findAll() {
 		logger.info("Searching all people!");
-		var persons = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
-		persons.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
-		return persons;
+		var people = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+		people.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
+		return people;
 	}
 
 	public PersonVO findById(Long id) {
@@ -42,6 +43,8 @@ public class PersonServices {
 	}
 	
 	public PersonVO create(PersonVO personVO) {
+		if (personVO == null) throw new RequiredObjectIsNullException();
+		
 		logger.info("Creating a person!");
 		// convert this personVO to a Person object.
 		var entity = DozerMapper.parseObject(personVO, Person.class);
@@ -51,13 +54,15 @@ public class PersonServices {
 		return vo;
 	}
 	
-	public PersonVO update(PersonVO person) {
+	public PersonVO update(PersonVO personVO) {
+		if (personVO == null) throw new RequiredObjectIsNullException();
+		
 		logger.info("Updating a person!");
-		var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
-		entity.setFirstName(person.getFirstName());
-		entity.setLastName(person.getLastName());
-		entity.setAddress(person.getAddress());
-		entity.setGender(person.getGender());
+		var entity = repository.findById(personVO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
+		entity.setFirstName(personVO.getFirstName());
+		entity.setLastName(personVO.getLastName());
+		entity.setAddress(personVO.getAddress());
+		entity.setGender(personVO.getGender());
 		var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
