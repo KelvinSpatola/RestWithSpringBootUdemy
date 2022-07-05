@@ -31,7 +31,7 @@ public class JwtTokenProvider {
 	private String secretKey = "secret";
 	
 	@Value("${security.jwt.token.expire-length:3600000}") 
-	private long validityInMilliseconds = 3600000;
+	private long validityInMilliseconds = 3600000; // 1h
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -53,10 +53,20 @@ public class JwtTokenProvider {
 		
 		return new TokenVO(username, true, now, validity, accessToken, refreshToken);
 	}
+	
+	public TokenVO refreshToken(String refreshToken) {
+		if (refreshToken.contains("Bearer ")) {
+			refreshToken = refreshToken.replaceAll("Bearer ", "");
+		}
+		JWTVerifier verifier = JWT.require(algorithm).build();
+		DecodedJWT decodedJWT = verifier.verify(refreshToken);
+		String username = decodedJWT.getSubject();
+		List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+		return createAccessToken(username, roles);
+	}
 
 	private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
 		String issuerUser = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-		
 		return JWT.create()
 				.withClaim("roles", roles)
 				.withIssuedAt(now)
