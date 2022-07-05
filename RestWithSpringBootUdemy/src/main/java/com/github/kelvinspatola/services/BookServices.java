@@ -4,7 +4,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +16,24 @@ import com.github.kelvinspatola.mapper.DozerMapper;
 import com.github.kelvinspatola.model.Book;
 import com.github.kelvinspatola.repositories.BookRepository;
 
+import lombok.extern.java.Log;
+
+@Log
 @Service
 public class BookServices {
-	private Logger logger = Logger.getLogger(BookServices.class.getName());
 	
 	@Autowired
 	private BookRepository repository;
 
 	public List<BookVO> findAll() {
-		logger.info("Searching all books!");
+		log.info("Searching all books!");
 		var bookList = DozerMapper.parseListObjects(repository.findAll(), BookVO.class);
 		bookList.forEach(p -> p.add(linkTo(methodOn(BookController.class).findById(p.getKey())).withSelfRel()));
 		return bookList;
 	}
 
 	public BookVO findById(Long id) {
-		logger.info("Searching for one book!");
+		log.info("Searching for one book!");
 		// get a Book object by its id
 		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		// and convert it to a BookVO object
@@ -45,7 +46,7 @@ public class BookServices {
 	public BookVO create(BookVO bookVO) {
 		if (bookVO == null) throw new RequiredObjectIsNullException();
 		
-		logger.info("Creating a book!");
+		log.info("Creating a book!");
 		// convert this personVO to a Book object.
 		var entity = DozerMapper.parseObject(bookVO, Book.class);
 		// save this Book object in the DB and then convert it back to a BookVO object and return it.
@@ -57,7 +58,7 @@ public class BookServices {
 	public BookVO update(BookVO bookVO) {
 		if (bookVO == null) throw new RequiredObjectIsNullException();
 		
-		logger.info("Updating a book!");
+		log.info("Updating a book!");
 		var entity = repository.findById(bookVO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		entity.setAuthor(bookVO.getAuthor());
 		entity.setLaunchDate(bookVO.getLaunchDate());
@@ -69,7 +70,7 @@ public class BookServices {
 	}
 	
 	public void delete(Long id) {
-		logger.info("Deleting one book!");
+		log.info("Deleting one book!");
 		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		repository.delete(entity);
 	}

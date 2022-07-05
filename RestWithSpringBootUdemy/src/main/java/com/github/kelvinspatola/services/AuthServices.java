@@ -14,6 +14,9 @@ import com.github.kelvinspatola.data.vo.v1.security.TokenVO;
 import com.github.kelvinspatola.repositories.UserRepository;
 import com.github.kelvinspatola.security.jwt.JwtTokenProvider;
 
+import lombok.extern.java.Log;
+
+@Log
 @Service
 public class AuthServices {
 	
@@ -28,6 +31,8 @@ public class AuthServices {
 	
 	@SuppressWarnings("rawtypes")
 	public ResponseEntity signin(AccountCredentialsVO data) {
+		log.info("Trying to signin");
+		
 		if (isInvalidParams(data)) 
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 
@@ -53,6 +58,8 @@ public class AuthServices {
 	
 	@SuppressWarnings("rawtypes")
 	public ResponseEntity refreshToken(String username, String refreshToken) {
+		log.info("Refreshing a token");
+		
 		if (isInvalidParams(username, refreshToken))
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 

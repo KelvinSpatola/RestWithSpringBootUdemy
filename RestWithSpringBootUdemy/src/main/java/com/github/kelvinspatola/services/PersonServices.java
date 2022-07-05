@@ -4,7 +4,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +16,24 @@ import com.github.kelvinspatola.mapper.DozerMapper;
 import com.github.kelvinspatola.model.Person;
 import com.github.kelvinspatola.repositories.PersonRepository;
 
+import lombok.extern.java.Log;
+
+@Log
 @Service
 public class PersonServices {
-	private Logger logger = Logger.getLogger(PersonServices.class.getName());
 	
 	@Autowired
 	private PersonRepository repository;
 
 	public List<PersonVO> findAll() {
-		logger.info("Searching all people!");
+		log.info("Searching all people!");
 		var people = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
 		people.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
 		return people;
 	}
 
 	public PersonVO findById(Long id) {
-		logger.info("Searching for one person!");
+		log.info("Searching for one person!");
 		// get a Person object by its id
 		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		// and convert it to a PersonVO object
@@ -45,7 +46,7 @@ public class PersonServices {
 	public PersonVO create(PersonVO personVO) {
 		if (personVO == null) throw new RequiredObjectIsNullException();
 		
-		logger.info("Creating a person!");
+		log.info("Creating a person!");
 		// convert this personVO to a Person object.
 		var entity = DozerMapper.parseObject(personVO, Person.class);
 		// save this Person object in the DB and then convert it back to a PersonVO object and return it.
@@ -57,7 +58,7 @@ public class PersonServices {
 	public PersonVO update(PersonVO personVO) {
 		if (personVO == null) throw new RequiredObjectIsNullException();
 		
-		logger.info("Updating a person!");
+		log.info("Updating a person!");
 		var entity = repository.findById(personVO.getKey()).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		entity.setFirstName(personVO.getFirstName());
 		entity.setLastName(personVO.getLastName());
@@ -69,7 +70,7 @@ public class PersonServices {
 	}
 	
 	public void delete(Long id) {
-		logger.info("Deleting one person!");
+		log.info("Deleting one person!");
 		var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
 		repository.delete(entity);
 	}

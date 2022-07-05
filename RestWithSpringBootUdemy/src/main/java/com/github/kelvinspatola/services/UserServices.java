@@ -1,7 +1,5 @@
 package com.github.kelvinspatola.services;
 
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.github.kelvinspatola.repositories.UserRepository;
 
+import lombok.extern.java.Log;
+
+@Log
 @Service
 public class UserServices implements UserDetailsService {
-	private Logger logger = Logger.getLogger(UserServices.class.getName());
 	
 	@Autowired
 	private UserRepository repository;
@@ -24,7 +24,7 @@ public class UserServices implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		logger.info("Searching one user by name " + username + "!");
+		log.info("Searching one user by name " + username + "!");
 		
 		var user = repository.findByUsername(username);
 		
