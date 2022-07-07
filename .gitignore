@@ -27,6 +27,7 @@ target/
 #Eclipse files
 **/.project
 **/.classpath
+**/.factorypath
 **/.settings/
 /bin/
 blog/bin/
