@@ -17,7 +17,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.github.kelvinspatola.configs.TestConfigs;
 import com.github.kelvinspatola.integrationtests.controller.withyaml.mapper.YMLMapper;

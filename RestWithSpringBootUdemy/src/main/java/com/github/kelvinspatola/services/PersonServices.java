@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.dozermapper.core.DozerConverter;
 import com.github.kelvinspatola.controllers.PersonController;
 import com.github.kelvinspatola.data.vo.v1.PersonVO;
 import com.github.kelvinspatola.exceptions.RequiredObjectIsNullException;
@@ -16,6 +17,7 @@ import com.github.kelvinspatola.mapper.DozerMapper;
 import com.github.kelvinspatola.model.Person;
 import com.github.kelvinspatola.repositories.PersonRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
 
 @Log
@@ -68,6 +70,20 @@ public class PersonServices {
 		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 		return vo;
 	}
+	
+	@Transactional
+	public PersonVO disablePerson(Long id) {
+		log.info("Disabling one person!");
+		
+		repository.disablePerson(id);
+		var entity = repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+		return DozerMapper.parseObject(entity, PersonVO.class);
+	}
+	
+	public List<PersonVO> findAllDisabled() {
+		return DozerMapper.parseListObjects(repository.findAllDisabled(), PersonVO.class);
+	}	
 	
 	public void delete(Long id) {
 		log.info("Deleting one person!");

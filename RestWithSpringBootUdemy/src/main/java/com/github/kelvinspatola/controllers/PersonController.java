@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -128,6 +129,54 @@ public class PersonController {
 			)
 	public PersonVO update(@RequestBody PersonVO person) {
 		return service.create(person);
+	}
+	
+	// DISABLE
+	@PatchMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
+	@Operation(
+			summary = "Disable a specific person by its ID", 
+			description = "Some description to this endpoint.", 
+			tags = { "People" }, 
+			responses = { 
+					@ApiResponse(
+							description = "Success", responseCode = "200", 
+							content = @Content(schema = @Schema(implementation = PersonVO.class))
+								),
+					@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+					@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+					}
+			)
+	public PersonVO disablePerson(@PathVariable("id") Long id) {
+		return service.disablePerson(id);
+	}	 
+	
+	// FIND ALL DISABLED
+	@GetMapping(value = "/disabled", produces = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML })
+	@Operation(
+			summary = "Finds all disabled people", 
+			description = "Some description to this endpoint.", 
+			tags = { "People" }, 
+			responses = { 
+					@ApiResponse(
+							description = "Success", 
+							responseCode = "200", 
+							content = { 
+									@Content(
+											mediaType = "application/json", 
+											array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))
+											)
+									}),
+					@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+					@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+					@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+					@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+					}
+			)
+	public List<PersonVO> findAllDisabled() {
+		return service.findAllDisabled();
 	}
 	
 	// DELETE
